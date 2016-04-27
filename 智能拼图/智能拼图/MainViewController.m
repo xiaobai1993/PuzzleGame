@@ -13,6 +13,8 @@ static int itemSum=16;
 @interface MainViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     CGFloat gradeTime;
+    
+    int lastItemCount;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *bgImage;
@@ -45,24 +47,7 @@ static int step =0;
 
 - (void)viewDidLoad {
     
-    
-    
-  //  print();
-//    //开始状态与目标状态
-//    status startt = {2 , 8 , 3 , 1 , 4 , 6 , 0 , 7 , 5};
-//    status target = {1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 0};
-    
-    NSMutableArray * origin = [NSMutableArray arrayWithObjects:@"2",@"8",@"3",@"1",@"4",@"6",@"0",@"7",@"5", nil];
-    NSMutableArray * obj = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"0", nil];
-    
-//    status * sta1 =[[status alloc]init];
-//    sta1.statusArr = origin;
-//    status * sta2 = [[status alloc]init];
-//    sta2.statusArr = obj;
-//    
-//    AutoComplete * com = [[AutoComplete alloc]initWithOriginStatus:sta1 andWithObjStatus:sta2];
-    
-    
+
       //AStar();
      [super viewDidLoad];
      [self.bgImage setBackgroundColor:[UIColor grayColor]];
@@ -78,9 +63,8 @@ static int step =0;
 {
     gradeTime+=0.1;
     
-    //Node * node = [[Node alloc]init];
 
-    self.timeLable.text = [NSString stringWithFormat:@"%.f",gradeTime];
+    self.timeLable.text = [NSString stringWithFormat:@"时间:%.0f",gradeTime];
 }
 /**
  *  选择图片
@@ -94,7 +78,11 @@ static int step =0;
     step=0;
     self.setpnums.text=@"步数:0";
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTime) userInfo:nil  repeats:YES];
+    if (self.timer==nil) {
+        
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTime) userInfo:nil  repeats:YES];
+    }
+
     gradeTime=0;
 
     
@@ -110,7 +98,7 @@ static int step =0;
             [btn removeFromSuperview];
         }
     }
-    for (int i=1; i<=itemSum;i++ )
+    for (int i=1; i<=(itemSum>lastItemCount?itemSum:lastItemCount);i++ )
     {
         CGRect r=[self FrameForIndex:i];
         //对原图进行切割
@@ -331,16 +319,19 @@ static int step =0;
     
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"难度等级" message:@"请选择难度等级" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction * actionLow = [UIAlertAction actionWithTitle:@"低" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        lastItemCount=itemSum;
         itemSum = 9;
         [self beginGame:sender];
     }];
     [alert addAction:actionLow];
     UIAlertAction * actionMid= [UIAlertAction actionWithTitle:@"中" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+         lastItemCount=itemSum;
         itemSum = 16;
          [self beginGame:sender];
     }];
     [alert addAction:actionMid];
     UIAlertAction * actionHigh = [UIAlertAction actionWithTitle:@"高" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        lastItemCount=itemSum;
         itemSum = 25;
          [self beginGame:sender];
     }];
