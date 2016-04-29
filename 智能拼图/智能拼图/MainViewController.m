@@ -7,13 +7,13 @@
 //
 
 #import "MainViewController.h"
-#import "BlockItem.h"
+#import "PuzzleBlockItem.h"
 #include "autoComplete.h"
+#import "MJExtension.h"
 static int itemSum=16;
 @interface MainViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     CGFloat gradeTime;
-    
     int lastItemCount;
 }
 
@@ -21,9 +21,9 @@ static int itemSum=16;
 
 @property (strong, nonatomic) IBOutlet UIButton *btn_start;
 
-@property (strong,nonatomic) NSMutableArray *ArrItem;//保存拼图对象
+@property (strong,nonatomic) NSMutableArray *PuzzleModelArr;//保存拼图对象
 
-@property (strong,nonatomic)NSMutableArray *ArrNum;//保存拼图块的编号
+@property (strong,nonatomic)NSMutableArray *PuzzleItemArr;//保存拼图块的编号
 
 @property (assign,nonatomic)int  blank_pos;//空白的
 
@@ -41,13 +41,34 @@ static int itemSum=16;
 @end
 static int step =0;
 
+
+
 @implementation MainViewController
-@synthesize bgImage,ArrItem,ArrNum,blank_pos;
+//@synthesize bgImage,ArrItem,ArrNum,blank_pos;
+
+
+- (NSMutableArray*)ArrItem
+{
+    if (_PuzzleModelArr==nil) {
+        
+        _PuzzleModelArr = [[NSMutableArray alloc]init];
+    }
+    return _PuzzleModelArr;
+}
+
+-(NSMutableArray*)PuzzleItemArr
+{
+    
+    if (_PuzzleItemArr==nil) {
+        
+        _PuzzleItemArr = [[NSMutableArray alloc]init];
+    }
+    return _PuzzleItemArr;
+}
 
 
 - (void)viewDidLoad {
     
-
       //AStar();
      [super viewDidLoad];
      [self.bgImage setBackgroundColor:[UIColor grayColor]];
@@ -73,96 +94,74 @@ static int step =0;
     [self select_img];
 }
 
-- (IBAction)beginGame:(id)sender
+-(void)initVar
 {
     step=0;
     self.setpnums.text=@"步数:0";
     
     if (self.timer==nil) {
-        
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTime) userInfo:nil  repeats:YES];
     }
-
     gradeTime=0;
-
-    
-    [self.bgImage setBackgroundImage:self.originalPic.image forState:UIControlStateNormal];
-    //动态创建控件的
-    ArrItem = [NSMutableArray array];
-    ArrNum = [NSMutableArray array];
-    blank_pos=itemSum;
     //每次都要把所有的原来创建的按钮移除，否则再次点击开始的时候会有影响
     for (int i=1; i<=itemSum; i++) {
-        UIButton *btn =(UIButton*)[bgImage viewWithTag:i];
-        if (btn!=nil) {
-            [btn removeFromSuperview];
+        PuzzleBlockItem * blockItem =(PuzzleBlockItem*)[self.bgImage viewWithTag:i];
+        if (blockItem!=nil) {
+            [blockItem removeFromSuperview];
+            blockItem = nil;
         }
     }
-    for (int i=1; i<=(itemSum>lastItemCount?itemSum:lastItemCount);i++ )
-    {
-        CGRect r=[self FrameForIndex:i];
-        //对原图进行切割
-        UIImage *ima = [self getPartOfImage:bgImage.currentBackgroundImage rect:r];
-        //根据范围添加拼图和确定背景图的内容
-        BlockItem *Block_Item = [[BlockItem alloc]initWithFrame:r];
-        [Block_Item setBackgroundImage:ima forState:UIControlStateNormal];
-        Block_Item.layer.borderColor = [[UIColor blackColor]CGColor];
-        Block_Item.layer.borderWidth=1;
-        [Block_Item addTarget:self action:@selector(TouchForMove:) forControlEvents:UIControlEventTouchUpInside];
-        [Block_Item setTitle:[NSString stringWithFormat:@"%d",i] forState:UIControlStateNormal];
-        [Block_Item setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        //设置目标位置
-        Block_Item.tag=i;
-        [ArrItem addObject:Block_Item];//添加到数组里面
-    }
-    [self ChoticBlocks];
+    [self.bgImage setBackgroundImage:self.originalPic.image forState:UIControlStateNormal];
+
 }
+- (IBAction)beginGame:(id)sender
+{
+    //创建控件模型
+    for (int i=0; i< itemSum;i++)
+    {
+        CGRect itemRect= [self FrameForIndex:i];
+        NSDictionary * dict = @{
+                                @"itemRect":[NSValue valueWithCGRect:itemRect],
+                                @"maxIdx":@(itemSum),
+                                @"objIdx":@(i),
+                                @"curIdx":@(i),
+                                };
+        PuzzleItemCtrlModel * puzzleCtrlModel = [PuzzleItemCtrlModel mj_objectWithKeyValues:dict];
+        PuzzleBlockItem * puzzItem = [PuzzleBlockItem puzzleBlockWithModel:puzzleCtrlModel];
+        [self.bgImage addSubview:puzzItem];
+        [self.PuzzleModelArr addObject:puzzleCtrlModel];
+        [self.PuzzleItemArr addObject:puzzItem];
+        
+    }
+}
+
 /**
  *  计算每个小图片的位置的位置
  */
--(CGRect)FrameForIndex:(int)i
-{
-    i-=1;
-    CGFloat x,y,height,width ;
-    int rowNum = (int)sqrt(itemSum);
-    x=i%rowNum*bgImage.frame.size.width/sqrt(itemSum);
-    y=i/rowNum*bgImage.frame.size.height/sqrt(itemSum);
-    width=bgImage.frame.size.width/sqrt(itemSum);
-    height=bgImage.frame.size.height/sqrt(itemSum);
-    CGRect r =CGRectMake(x, y, width, height);
-    return r;
-}
--(void)ChoticBlocks
-{
-    blank_pos=itemSum;
-    
-    ArrNum = [NSMutableArray arrayWithArray:[self randNum:itemSum-1]] ;//生成1到itemSum -1的随机数，存放在数组里面
-    [self.bgImage setBackgroundImage:nil forState:UIControlStateNormal];
-    for (int i=1; i<=itemSum-1; i++) {
-        CGRect r =[self FrameForIndex:i];
-        BlockItem *bp;
-        int idx = [ArrNum[i-1]intValue];
-        for (int j=0; j<itemSum; j++) {
-            bp =ArrItem[j];
-            if (bp.tag == idx) {
-                break;
-            }
-        }
-        bp.frame=r;
-        bp.cur_pos=i;
-        [self.bgImage addSubview:bp];
-    }
-  
-}
+//-(void)ChoticBlocks
+//{
+//    //blank_pos=itemSum;
+//    
+//    ArrNum = [NSMutableArray arrayWithArray:[self randNum:itemSum-1]] ;//生成1到itemSum -1的随机数，存放在数组里面
+//    [self.bgImage setBackgroundImage:nil forState:UIControlStateNormal];//清空背景图
+//    
+//    for (int i=1; i<=itemSum-1; i++) {
+//        CGRect r =[self FrameForIndex:i];
+//        PuzzleBlockItem *bp;
+//        int idx = [ArrNum[i-1]intValue];
+//        for (int j=0; j<itemSum; j++) {
+//            bp =ArrItem[j];
+//            if (bp.tag == idx) {
+//                break;
+//            }
+//        }
+//        bp.frame=r;
+//        /bp.cur_pos=i;
+//        [self.bgImage addSubview:bp];
+//    }
+//  
+//}
 //1 获取图片的某一部分区域
-- (UIImage *)getPartOfImage:(UIImage *)img rect:(CGRect)partRect
-{
-    CGImageRef imageRef = img.CGImage;
-    CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, partRect);
-    UIImage *retImg = [UIImage imageWithCGImage:imagePartRef];
-    CGImageRelease(imagePartRef);
-    return retImg;
-}
 //2 把一个图片按照尺寸进行放大或缩小,这个例子是按照40*40
 - (UIImage*)LoadImage:(UIImage*)aImage
 {
@@ -179,29 +178,9 @@ static int step =0;
     return cropped;
 }
 
--(void)TouchForMove:(BlockItem *)sender;
+-(void)TouchForMove:(PuzzleBlockItem *)sender;
 {
     
-    self.setpnums.text = [NSString stringWithFormat:@"步数:%d",step++];
-    int rowNum = (int)sqrt(itemSum);
-    BOOL f1 = (sender.cur_pos+rowNum==blank_pos)||(sender.cur_pos-rowNum==blank_pos);
-    
-    BOOL f2 = (sender.cur_pos%rowNum==1)&&(sender.cur_pos-rowNum==blank_pos);
-    
-    BOOL f3=  (sender.cur_pos%rowNum==0)&&(sender.cur_pos+1==blank_pos);
-    
-    BOOL f4 =(sender.cur_pos+1==blank_pos)||(sender.cur_pos-1==blank_pos);
-    
-    NSLog(@"%d %d %d %d",f1,f2,f3,f4);
-    //如果满足条件就直接交换和空格位置
-    if (f1||((!(f2||f3))&&f4))
-    {
-        int tem =sender.cur_pos;
-        sender.frame =[self FrameForIndex:blank_pos];
-        sender.cur_pos=blank_pos;
-        blank_pos=tem;
-    
-    }
     [self check_pass];//检验是否结束
     
 }
@@ -251,17 +230,17 @@ static int step =0;
 -(void)check_pass
 {
     int i;
-    for (i=1; i<=itemSum-1; i++)
-    {
-        BlockItem * blkPic= ArrItem[i];
-        NSLog(@"%zd %zd",blkPic.cur_pos,blkPic.tag);
-        if (blkPic.cur_pos!=blkPic.tag) {
-            break;
-        }
-    }
+//    for (i=1; i<=itemSum-1; i++)
+//    {
+//        PuzzleBlockItem * blkPic= ArrItem[i];
+//        NSLog(@"%zd %zd",blkPic.cur_pos,blkPic.tag);
+//        if (blkPic.cur_pos!=blkPic.tag) {
+//            break;
+//        }
+//    }
     if (i == itemSum -1 ) {
         
-        [self.bgImage addSubview:ArrItem[itemSum-1]];
+        //[self.bgImage addSubview:ArrItem[itemSum-1]];
         UIAlertView *GamePassAlert = [[UIAlertView alloc]initWithTitle:@"通关提示" message:@"恭喜你成功通关" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
               [GamePassAlert show];
         //存储成绩
@@ -286,7 +265,7 @@ static int step =0;
             [standard synchronize];
         }
         //成功后按钮不在响应用户事件
-        [ArrItem makeObjectsPerformSelector:@selector(setUserInteractionEnabled:) withObject:@(NO)];
+       // [ArrItem makeObjectsPerformSelector:@selector(setUserInteractionEnabled:) withObject:@(NO)];
     }
 }
 //选择系统照片
@@ -305,13 +284,24 @@ static int step =0;
     aImage = [self LoadImage:aImage];
     [self.originalPic setImage:aImage];
     [self.bgImage setBackgroundImage:self.originalPic.image forState:UIControlStateNormal];
-    [picker dismissModalViewControllerAnimated:YES];
-    
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)makeTips:(id)sender {
     
-    [ArrItem makeObjectsPerformSelector:@selector(showTipsThreeSec)];
+    //[ArrItem makeObjectsPerformSelector:@selector(showTipsThreeSec)];
 }
+-(CGRect)FrameForIndex:(int)i
+{
+    CGFloat x,y,height,width ;
+    int rowNum = (int)sqrt(itemSum);
+    x=i%rowNum*self.bgImage.frame.size.width/sqrt(itemSum);
+    y=i/rowNum*self.bgImage.frame.size.height/sqrt(itemSum);
+    width=self.bgImage.frame.size.width/sqrt(itemSum);
+    height=self.bgImage.frame.size.height/sqrt(itemSum);
+    CGRect r =CGRectMake(x, y, width, height);
+    return r;
+}
+
 
 //设置难度等级
 

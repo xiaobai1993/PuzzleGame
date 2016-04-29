@@ -7,15 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		452A54991BAA4D8800C019F1 /* BlockItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 452A54981BAA4D8800C019F1 /* BlockItem.m */; };
+		452A54991BAA4D8800C019F1 /* PuzzleBlockItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 452A54981BAA4D8800C019F1 /* PuzzleBlockItem.m */; };
 		45C13B3F1BA9B39E00F53D22 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C13B3E1BA9B39E00F53D22 /* main.m */; };
 		45C13B451BA9B39E00F53D22 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C13B441BA9B39E00F53D22 /* MainViewController.m */; };
 		45C13B481BA9B39E00F53D22 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45C13B461BA9B39E00F53D22 /* Main.storyboard */; };
 		45C13B591BA9B39E00F53D22 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C13B581BA9B39E00F53D22 /* ____Tests.m */; };
 		CF1C2CB41C942C5E00E6F216 /* gradeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1C2CB31C942C5E00E6F216 /* gradeModel.m */; };
 		CF1EC7D51CC8B1B700D7977F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1EC7D41CC8B1B700D7977F /* AppDelegate.m */; };
+		CF845F4C1CD2153600C8E070 /* PuzzleItemCtrlModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F4B1CD2153600C8E070 /* PuzzleItemCtrlModel.m */; };
+		CF845F691CD231C200C8E070 /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F561CD231C200C8E070 /* MJExtensionConst.m */; };
+		CF845F6A1CD231C200C8E070 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F581CD231C200C8E070 /* MJFoundation.m */; };
+		CF845F6B1CD231C200C8E070 /* MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F5A1CD231C200C8E070 /* MJProperty.m */; };
+		CF845F6C1CD231C200C8E070 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F5C1CD231C200C8E070 /* MJPropertyKey.m */; };
+		CF845F6D1CD231C200C8E070 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F5E1CD231C200C8E070 /* MJPropertyType.m */; };
+		CF845F6E1CD231C200C8E070 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F601CD231C200C8E070 /* NSObject+MJClass.m */; };
+		CF845F6F1CD231C200C8E070 /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F621CD231C200C8E070 /* NSObject+MJCoding.m */; };
+		CF845F701CD231C200C8E070 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F641CD231C200C8E070 /* NSObject+MJKeyValue.m */; };
+		CF845F711CD231C200C8E070 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F661CD231C200C8E070 /* NSObject+MJProperty.m */; };
+		CF845F721CD231C200C8E070 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = CF845F681CD231C200C8E070 /* NSString+MJExtension.m */; };
 		CFA185B81CD07BB80091A750 /* bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA185B71CD07BB80091A750 /* bg2.png */; };
 		CFA290D11CBFB06C00F1A1BE /* gradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA290D01CBFB06C00F1A1BE /* gradeViewController.m */; };
+		CFA7042C1CD31E6F00B08403 /* PuzzleTools.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7042B1CD31E6F00B08403 /* PuzzleTools.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,8 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		452A54971BAA4D8800C019F1 /* BlockItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockItem.h; sourceTree = "<group>"; };
-		452A54981BAA4D8800C019F1 /* BlockItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockItem.m; sourceTree = "<group>"; };
+		452A54971BAA4D8800C019F1 /* PuzzleBlockItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleBlockItem.h; sourceTree = "<group>"; };
+		452A54981BAA4D8800C019F1 /* PuzzleBlockItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleBlockItem.m; sourceTree = "<group>"; };
 		45C13B391BA9B39E00F53D22 /* 智能拼图.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "智能拼图.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45C13B3D1BA9B39E00F53D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45C13B3E1BA9B39E00F53D22 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -44,9 +56,34 @@
 		CF1C2CB31C942C5E00E6F216 /* gradeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gradeModel.m; sourceTree = "<group>"; };
 		CF1EC7D31CC8B1B700D7977F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CF1EC7D41CC8B1B700D7977F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CF845F4A1CD2153600C8E070 /* PuzzleItemCtrlModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleItemCtrlModel.h; sourceTree = "<group>"; };
+		CF845F4B1CD2153600C8E070 /* PuzzleItemCtrlModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleItemCtrlModel.m; sourceTree = "<group>"; };
+		CF845F541CD231C200C8E070 /* MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtension.h; sourceTree = "<group>"; };
+		CF845F551CD231C200C8E070 /* MJExtensionConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtensionConst.h; sourceTree = "<group>"; };
+		CF845F561CD231C200C8E070 /* MJExtensionConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJExtensionConst.m; sourceTree = "<group>"; };
+		CF845F571CD231C200C8E070 /* MJFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJFoundation.h; sourceTree = "<group>"; };
+		CF845F581CD231C200C8E070 /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
+		CF845F591CD231C200C8E070 /* MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJProperty.h; sourceTree = "<group>"; };
+		CF845F5A1CD231C200C8E070 /* MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJProperty.m; sourceTree = "<group>"; };
+		CF845F5B1CD231C200C8E070 /* MJPropertyKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyKey.h; sourceTree = "<group>"; };
+		CF845F5C1CD231C200C8E070 /* MJPropertyKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyKey.m; sourceTree = "<group>"; };
+		CF845F5D1CD231C200C8E070 /* MJPropertyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyType.h; sourceTree = "<group>"; };
+		CF845F5E1CD231C200C8E070 /* MJPropertyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyType.m; sourceTree = "<group>"; };
+		CF845F5F1CD231C200C8E070 /* NSObject+MJClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJClass.h"; sourceTree = "<group>"; };
+		CF845F601CD231C200C8E070 /* NSObject+MJClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJClass.m"; sourceTree = "<group>"; };
+		CF845F611CD231C200C8E070 /* NSObject+MJCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJCoding.h"; sourceTree = "<group>"; };
+		CF845F621CD231C200C8E070 /* NSObject+MJCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJCoding.m"; sourceTree = "<group>"; };
+		CF845F631CD231C200C8E070 /* NSObject+MJKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJKeyValue.h"; sourceTree = "<group>"; };
+		CF845F641CD231C200C8E070 /* NSObject+MJKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJKeyValue.m"; sourceTree = "<group>"; };
+		CF845F651CD231C200C8E070 /* NSObject+MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJProperty.h"; sourceTree = "<group>"; };
+		CF845F661CD231C200C8E070 /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
+		CF845F671CD231C200C8E070 /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
+		CF845F681CD231C200C8E070 /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
 		CFA185B71CD07BB80091A750 /* bg2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg2.png; sourceTree = "<group>"; };
 		CFA290CF1CBFB06C00F1A1BE /* gradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gradeViewController.h; sourceTree = "<group>"; };
 		CFA290D01CBFB06C00F1A1BE /* gradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gradeViewController.m; sourceTree = "<group>"; };
+		CFA7042A1CD31E6F00B08403 /* PuzzleTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PuzzleTools.h; sourceTree = "<group>"; };
+		CFA7042B1CD31E6F00B08403 /* PuzzleTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PuzzleTools.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,10 +125,10 @@
 		45C13B3B1BA9B39E00F53D22 /* 智能拼图 */ = {
 			isa = PBXGroup;
 			children = (
+				CF845F531CD231C200C8E070 /* MJExtension */,
 				CFA185B71CD07BB80091A750 /* bg2.png */,
 				CF1EC7D31CC8B1B700D7977F /* AppDelegate.h */,
 				CF1EC7D41CC8B1B700D7977F /* AppDelegate.m */,
-				CFA290D21CBFB9C800F1A1BE /* class */,
 				CF1C2CAA1C942B5D00E6F216 /* Model */,
 				CF1C2CA91C942B4000E6F216 /* View */,
 				CF1C2CA81C942B2900E6F216 /* controller */,
@@ -141,8 +178,10 @@
 			isa = PBXGroup;
 			children = (
 				45C13B461BA9B39E00F53D22 /* Main.storyboard */,
-				452A54971BAA4D8800C019F1 /* BlockItem.h */,
-				452A54981BAA4D8800C019F1 /* BlockItem.m */,
+				452A54971BAA4D8800C019F1 /* PuzzleBlockItem.h */,
+				452A54981BAA4D8800C019F1 /* PuzzleBlockItem.m */,
+				CF845F4A1CD2153600C8E070 /* PuzzleItemCtrlModel.h */,
+				CF845F4B1CD2153600C8E070 /* PuzzleItemCtrlModel.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -151,16 +190,39 @@
 			isa = PBXGroup;
 			children = (
 				CF1C2CB21C942C5E00E6F216 /* gradeModel.h */,
+				CFA7042A1CD31E6F00B08403 /* PuzzleTools.h */,
+				CFA7042B1CD31E6F00B08403 /* PuzzleTools.m */,
 				CF1C2CB31C942C5E00E6F216 /* gradeModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
 		};
-		CFA290D21CBFB9C800F1A1BE /* class */ = {
+		CF845F531CD231C200C8E070 /* MJExtension */ = {
 			isa = PBXGroup;
 			children = (
+				CF845F541CD231C200C8E070 /* MJExtension.h */,
+				CF845F551CD231C200C8E070 /* MJExtensionConst.h */,
+				CF845F561CD231C200C8E070 /* MJExtensionConst.m */,
+				CF845F571CD231C200C8E070 /* MJFoundation.h */,
+				CF845F581CD231C200C8E070 /* MJFoundation.m */,
+				CF845F591CD231C200C8E070 /* MJProperty.h */,
+				CF845F5A1CD231C200C8E070 /* MJProperty.m */,
+				CF845F5B1CD231C200C8E070 /* MJPropertyKey.h */,
+				CF845F5C1CD231C200C8E070 /* MJPropertyKey.m */,
+				CF845F5D1CD231C200C8E070 /* MJPropertyType.h */,
+				CF845F5E1CD231C200C8E070 /* MJPropertyType.m */,
+				CF845F5F1CD231C200C8E070 /* NSObject+MJClass.h */,
+				CF845F601CD231C200C8E070 /* NSObject+MJClass.m */,
+				CF845F611CD231C200C8E070 /* NSObject+MJCoding.h */,
+				CF845F621CD231C200C8E070 /* NSObject+MJCoding.m */,
+				CF845F631CD231C200C8E070 /* NSObject+MJKeyValue.h */,
+				CF845F641CD231C200C8E070 /* NSObject+MJKeyValue.m */,
+				CF845F651CD231C200C8E070 /* NSObject+MJProperty.h */,
+				CF845F661CD231C200C8E070 /* NSObject+MJProperty.m */,
+				CF845F671CD231C200C8E070 /* NSString+MJExtension.h */,
+				CF845F681CD231C200C8E070 /* NSString+MJExtension.m */,
 			);
-			name = class;
+			path = MJExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,12 +324,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				452A54991BAA4D8800C019F1 /* BlockItem.m in Sources */,
+				CF845F6F1CD231C200C8E070 /* NSObject+MJCoding.m in Sources */,
+				CF845F691CD231C200C8E070 /* MJExtensionConst.m in Sources */,
+				CF845F6E1CD231C200C8E070 /* NSObject+MJClass.m in Sources */,
+				CFA7042C1CD31E6F00B08403 /* PuzzleTools.m in Sources */,
+				CF845F6C1CD231C200C8E070 /* MJPropertyKey.m in Sources */,
+				452A54991BAA4D8800C019F1 /* PuzzleBlockItem.m in Sources */,
 				45C13B451BA9B39E00F53D22 /* MainViewController.m in Sources */,
+				CF845F6B1CD231C200C8E070 /* MJProperty.m in Sources */,
+				CF845F6A1CD231C200C8E070 /* MJFoundation.m in Sources */,
 				CF1EC7D51CC8B1B700D7977F /* AppDelegate.m in Sources */,
 				CF1C2CB41C942C5E00E6F216 /* gradeModel.m in Sources */,
 				45C13B3F1BA9B39E00F53D22 /* main.m in Sources */,
+				CF845F6D1CD231C200C8E070 /* MJPropertyType.m in Sources */,
+				CF845F4C1CD2153600C8E070 /* PuzzleItemCtrlModel.m in Sources */,
+				CF845F701CD231C200C8E070 /* NSObject+MJKeyValue.m in Sources */,
+				CF845F721CD231C200C8E070 /* NSString+MJExtension.m in Sources */,
 				CFA290D11CBFB06C00F1A1BE /* gradeViewController.m in Sources */,
+				CF845F711CD231C200C8E070 /* NSObject+MJProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
