@@ -8,6 +8,7 @@
 
 #import "PuzzleTools.h"
 
+static NSArray * puzzleGroup;
 @implementation PuzzleTools
 +(void)saveBackImage:(UIImage *) backImage
 {
@@ -17,6 +18,29 @@
     
     [UIImagePNGRepresentation(backImage)writeToFile: imagePath atomically:YES];
 
+}
++(PuzzleItemCtrlDirect)CtrlPuzzleMove:(PuzzleItemCtrlModel*) thePuzzle
+{
+    if (puzzleGroup.count==0) {
+        
+        return PuzzleItemCtrlDirectNone;
+    }
+    for (id obj in puzzleGroup) {
+        
+        if (![obj isKindOfClass:[PuzzleItemCtrlModel class]]) {
+            
+            return PuzzleItemCtrlDirectNone;
+        }
+    }
+    
+    
+    
+    
+    return PuzzleItemCtrlDirectUp;
+}
++(void)setPuzzleGroup:(NSMutableArray *)groupArr
+{
+    puzzleGroup = groupArr;
 }
 
 

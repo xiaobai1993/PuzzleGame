@@ -99,6 +99,8 @@
             
             self.image = [self getPartOfImageInRect:puzzleModel.itemRect];//原始的位置
         }
+        
+        _puzzleModel = puzzleModel;
     }
     return self;
 }
@@ -106,8 +108,10 @@
 -(void)setPuzzleModel:(PuzzleItemCtrlModel *)puzzleModel
 {
     _puzzleModel = puzzleModel;
-    //控制移动
-    
+    //重新计算位置
+    int xItem = _puzzleModel.curIdx%((int)sqrt(_puzzleModel.maxIdx));
+    int yItem = _puzzleModel.curIdx/((int)sqrt(_puzzleModel.maxIdx));
+    self.frame = CGRectMake(xItem*_puzzleModel.itemRect.size.width, yItem*_puzzleModel.itemRect.size.width, _puzzleModel.itemRect.size.width, _puzzleModel.itemRect.size.height);
     
 }
 //点击按钮的事件
@@ -117,24 +121,20 @@
     
     switch (self.puzzleModel.direct) {
         case PuzzleItemCtrlDirectUp:
+        {
+        
+        }
+            break;
+        case PuzzleItemCtrlDirectDown:
+            break;
+        case PuzzleItemCtrlDirectLeft:
+            break;
+        case PuzzleItemCtrlDirectRight:
+            break;
+        case PuzzleItemCtrlDirectNone:
             
             break;
-            case PuzzleItemCtrlDirectDown:
-            
-            break;
-            
-            case PuzzleItemCtrlDirectNone:
-            
-            break;
-            
-            case PuzzleItemCtrlDirectLeft:
-            
-            break;
-            
-            case PuzzleItemCtrlDirectRight:
-            
-            break;
-            
+
         default:
             break;
     }
