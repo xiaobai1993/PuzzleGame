@@ -20,6 +20,7 @@
 
 @property (nonatomic,strong) UIPanGestureRecognizer * pan;//拖拽手势
 
+@property (nonatomic,strong) UIImage * showImage;
 
 @end
 @implementation PuzzleBlockItem
@@ -60,9 +61,11 @@
         [self addSubview:self.titleLabel];
         self.tap = [[UITapGestureRecognizer alloc]init];
         self.pan = [[UIPanGestureRecognizer alloc]init];
-        
+        [self.tap addTarget:self action:@selector(tapTarget:)];
+        [self.pan addTarget:self action:@selector(panTarget:)];
         self.layer.borderColor = [[UIColor blackColor]CGColor];
         self.layer.borderWidth=1;
+        self.titleLabel.userInteractionEnabled=YES;
 
         [self addGestureRecognizer:self.tap];
         [self addGestureRecognizer:self.pan];
@@ -94,10 +97,15 @@
         
         anim.duration = 0.5;
         
+        [self.layer addAnimation:anim forKey:nil];
+        
         self.titleLabel.text = [NSString stringWithFormat:@"%d",puzzleModel.objIdx];
-        if (puzzleModel.curIdx != puzzleModel.maxIdx-1) {
+        
+        self.image = [self getPartOfImageInRect:puzzleModel.itemRect];//原始的位置
+        if (puzzleModel.curIdx == puzzleModel.maxIdx-1) {
             
-            self.image = [self getPartOfImageInRect:puzzleModel.itemRect];//原始的位置
+            self.showImage = self.image;
+            self.image= nil;
         }
         
         _puzzleModel = puzzleModel;
@@ -108,37 +116,13 @@
 -(void)setPuzzleModel:(PuzzleItemCtrlModel *)puzzleModel
 {
     _puzzleModel = puzzleModel;
-    //重新计算位置
-    int xItem = _puzzleModel.curIdx%((int)sqrt(_puzzleModel.maxIdx));
-    int yItem = _puzzleModel.curIdx/((int)sqrt(_puzzleModel.maxIdx));
-    self.frame = CGRectMake(xItem*_puzzleModel.itemRect.size.width, yItem*_puzzleModel.itemRect.size.width, _puzzleModel.itemRect.size.width, _puzzleModel.itemRect.size.height);
-    
+    self.frame = _puzzleModel.itemRect;
 }
 //点击按钮的事件
 
 -(void)tapTarget:(UITapGestureRecognizer *) tapGesture
 {
-    
-    switch (self.puzzleModel.direct) {
-        case PuzzleItemCtrlDirectUp:
-        {
-        
-        }
-            break;
-        case PuzzleItemCtrlDirectDown:
-            break;
-        case PuzzleItemCtrlDirectLeft:
-            break;
-        case PuzzleItemCtrlDirectRight:
-            break;
-        case PuzzleItemCtrlDirectNone:
-            
-            break;
-
-        default:
-            break;
-    }
-
+    [PuzzleTools CtrlPuzzleMove:self];
 }
 -(void)panTarget:(UIPanGestureRecognizer *) panGesture
 {
@@ -158,7 +142,9 @@
     CGImageRelease(imagePartRef);
     return retImg;
 }
-
-
+-(void)showRealImage
+{
+    self.image = self.showImage;
+}
 
 @end

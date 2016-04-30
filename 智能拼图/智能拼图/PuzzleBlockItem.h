@@ -23,4 +23,5 @@
  *  @return 是否在目标位置
  */
 -(BOOL) isAtObjIdx;
+-(void)showRealImage;
 @end

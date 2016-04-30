@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "PuzzleItemCtrlModel.h"
+#import "PuzzleBlockItem.h"
 @interface PuzzleTools : NSObject
 +(void)saveBackImage:(UIImage *) backImage;
 +(UIImage*)getBackImage;
-+(PuzzleItemCtrlDirect)CtrlPuzzleMove:(PuzzleItemCtrlModel*) thePuzzle andWithType:(Class )CLASS;
++(PuzzleItemCtrlDirect)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock;
 /**
  *  拼图的所有的数组
  */

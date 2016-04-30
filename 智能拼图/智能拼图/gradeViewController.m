@@ -24,7 +24,6 @@
     // Do any additional setup after loading the view.
     
     NSUserDefaults * standard = [NSUserDefaults standardUserDefaults];
-    
     CGFloat garde = [standard floatForKey:@"low"];
     if (garde!=0) {
         

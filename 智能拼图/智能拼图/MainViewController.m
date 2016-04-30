@@ -10,6 +10,7 @@
 #import "PuzzleBlockItem.h"
 #include "autoComplete.h"
 #import "MJExtension.h"
+#import "PuzzleTools.h"
 static int itemSum=16;
 @interface MainViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
@@ -23,7 +24,6 @@ static int itemSum=16;
 
 @property (strong,nonatomic)NSMutableArray *PuzzleItemArr;//保存拼图块的编号
 
-@property (assign,nonatomic)int  blank_pos;//空白的
 
 @property (strong, nonatomic) IBOutlet UIImageView *originalPic;
 @property (strong, nonatomic) IBOutlet UIButton *btn_selPic;
@@ -57,15 +57,49 @@ static int step =0;
 - (void)viewDidLoad {
     
      [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hasGetSuccessNotify) name:@"success" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateStep) name:@"hasMove" object:nil];
      [self.bgImage setBackgroundColor:[UIColor grayColor]];
-     self.originalPic.image =[UIImage imageNamed:@"bg2"];
+     self.originalPic.image = [PuzzleTools getBackImage];
      [self.bgImage setBackgroundImage:self.originalPic.image forState:UIControlStateNormal];
      self.view.backgroundColor = [UIColor lightGrayColor];
      _mainViewHeight.constant = self.bgImage.frame.size.width;
      [self.view layoutIfNeeded];
     
 }
-                   
+-(void)hasGetSuccessNotify
+{
+    //存储成绩
+    NSUserDefaults * standard = [NSUserDefaults standardUserDefaults];
+    NSString * level;
+    switch (itemSum) {
+        case 9:
+            level=@"low";
+            break;
+        case 16:
+            level=@"mid";
+            break;
+        default:
+            level=@"high";
+            break;
+    }
+    [self.timer invalidate];
+    self.timer = nil;
+    CGFloat bestTime = [standard floatForKey:level];
+    //存储成绩
+    if (bestTime==0||gradeTime<bestTime) {
+        [standard setFloat:gradeTime forKey:level];
+        [standard synchronize];
+    }
+
+}
+
+-(void)updateStep
+{
+    step++;
+    self.setpnums.text = [NSString stringWithFormat:@"步数:%d",step];
+}
+
 -(void)updateTime
 {
     gradeTime+=0.1;
@@ -87,6 +121,7 @@ static int step =0;
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTime) userInfo:nil  repeats:YES];
     }
     gradeTime=0;
+    
     //每次都要把所有的原来创建的按钮移除，否则再次点击开始的时候会有影响
     for (int i=1; i<=itemSum; i++) {
         PuzzleBlockItem * blockItem =(PuzzleBlockItem*)[self.bgImage viewWithTag:i];
@@ -117,6 +152,7 @@ static int step =0;
         [self.bgImage addSubview:puzzItem];
         [self.PuzzleItemArr addObject:puzzItem];
     }
+    [PuzzleTools setPuzzleGroup:self.PuzzleItemArr];
     [self ChoticBlocks];
 }
 
@@ -125,8 +161,6 @@ static int step =0;
  */
 -(void)ChoticBlocks
 {
-    //blank_pos=itemSum;
-    
     [self.bgImage setBackgroundImage:nil forState:UIControlStateNormal];//清空背景图
     
     NSMutableArray * randArr = [self randNum:itemSum-1];//最后一位是空格，所以要自己加入
@@ -140,35 +174,6 @@ static int step =0;
         puzzleItem.puzzleModel = ctrlModel;
     }
 }
--(void)calculateMoveMsg
-{
-//    -(void)TouchForMove:(PuzzleBlockItem *)sender;
-//    {
-//        
-//        self.setpnums.text = [NSString stringWithFormat:@"步数:%d",step++];
-//        int rowNum = (int)sqrt(itemSum);
-//        BOOL f1 = (sender.cur_pos+rowNum==blank_pos)||(sender.cur_pos-rowNum==blank_pos);
-//        
-//        BOOL f2 = (sender.cur_pos%rowNum==1)&&(sender.cur_pos-rowNum==blank_pos);
-//        
-//        BOOL f3=  (sender.cur_pos%rowNum==0)&&(sender.cur_pos+1==blank_pos);
-//        
-//        BOOL f4 =(sender.cur_pos+1==blank_pos)||(sender.cur_pos-1==blank_pos);
-//        
-//        NSLog(@"%d %d %d %d",f1,f2,f3,f4);
-    
-       for (int i = 0; i<self.PuzzleItemArr.count; i++) {
-        
-           PuzzleBlockItem * puzzleItem = self.PuzzleItemArr[i];
-           PuzzleItemCtrlModel * ctrlModel = puzzleItem.puzzleModel;
-           puzzleItem.puzzleModel = ctrlModel;
-           
-       }
-
-    
-    
-}
-//1 获取图片的某一部分区域
 //2 把一个图片按照尺寸进行放大或缩小,这个例子是按照40*40
 - (UIImage*)LoadImage:(UIImage*)aImage
 {
@@ -181,11 +186,6 @@ static int step =0;
     UIImage *cropped = UIGraphicsGetImageFromCurrentImageContext();//获得图片
     UIGraphicsEndImageContext();//从当前堆栈中删除quartz 2d绘图环境
     return cropped;
-}
-
--(void)TouchForMove:(PuzzleBlockItem *)sender;
-{
-    [self check_pass];//检验是否结束
 }
 /**
  *生成0到sum-1的随机数
@@ -225,45 +225,12 @@ static int step =0;
     //交换两个数的顺序逆序数奇偶性改变
     if (count%2!=0) {
         
-            NSInteger idx1=[arr indexOfObject:@"8"];
+            NSInteger idx1=[arr indexOfObject:@"6"];
             NSInteger idx2=[arr indexOfObject:@"7"];
             [arr replaceObjectAtIndex:idx1 withObject:@"7"];
-            [arr replaceObjectAtIndex:idx2 withObject:@"8"];
+            [arr replaceObjectAtIndex:idx2 withObject:@"6"];
     }
     return  arr;
-}
--(void)check_pass
-{
-    int i;
-    if (i == itemSum -1 ) {
-        
-        UIAlertView *GamePassAlert = [[UIAlertView alloc]initWithTitle:@"通关提示" message:@"恭喜你成功通关" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-              [GamePassAlert show];
-        //存储成绩
-        NSUserDefaults * standard = [NSUserDefaults standardUserDefaults];
-        NSString * level;
-        switch (itemSum) {
-            case 9:
-                level=@"low";
-                break;
-            case 16:
-                level=@"mid";
-                break;
-            default:
-                level=@"high";
-                break;
-        }
-        [self.timer invalidate];
-        self.timer = nil;
-        CGFloat bestTime = [standard floatForKey:level];
-        //存储成绩
-        if (bestTime==0||gradeTime<bestTime) {
-            [standard setFloat:gradeTime forKey:level];
-            [standard synchronize];
-        }
-        //成功后按钮不在响应用户事件
-        [self.PuzzleItemArr makeObjectsPerformSelector:@selector(setUserInteractionEnabled:) withObject:@(NO)];
-    }
 }
 //选择系统照片
 -(void)select_img
@@ -280,6 +247,8 @@ static int step =0;
     aImage = [self LoadImage:aImage];
     [self.originalPic setImage:aImage];
     [self.bgImage setBackgroundImage:self.originalPic.image forState:UIControlStateNormal];
+    [PuzzleTools saveBackImage:aImage];
+
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -322,5 +291,6 @@ static int step =0;
     [alert addAction:actionHigh];
     [self presentViewController:alert animated:YES completion:nil];
 }
+
 
 @end
