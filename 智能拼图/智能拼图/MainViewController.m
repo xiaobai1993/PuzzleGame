@@ -57,6 +57,7 @@ static int step =0;
 - (void)viewDidLoad {
     
      [super viewDidLoad];
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hasGetSuccessNotify) name:@"success" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateStep) name:@"hasMove" object:nil];
      [self.bgImage setBackgroundColor:[UIColor grayColor]];

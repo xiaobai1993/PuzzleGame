@@ -19,9 +19,7 @@
         
         int xItem = self.curIdx%((int)sqrt(self.maxIdx));
         int yItem = self.curIdx/((int)sqrt(self.maxIdx));
-        
         self.itemRect = CGRectMake(xItem*self.itemRect.size.width, yItem*self.itemRect.size.width, self.itemRect.size.width, self.itemRect.size.height);
-
     }
 }
 @end

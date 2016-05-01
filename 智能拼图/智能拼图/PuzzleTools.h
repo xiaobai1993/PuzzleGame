@@ -13,7 +13,7 @@
 @interface PuzzleTools : NSObject
 +(void)saveBackImage:(UIImage *) backImage;
 +(UIImage*)getBackImage;
-+(PuzzleItemCtrlDirect)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock;
++(void)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock withDragDirection:(PuzzleItemCtrlDirect*)Direct;
 /**
  *  拼图的所有的数组
  */

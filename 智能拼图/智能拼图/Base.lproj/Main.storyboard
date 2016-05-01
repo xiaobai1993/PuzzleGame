@@ -31,18 +31,20 @@
                                 <rect key="frame" x="23" y="430" width="46" height="30"/>
                                 <color key="backgroundColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
                                 <state key="normal" title="开始">
-                                    <color key="titleColor" red="0.1689788864" green="0.98369580509999999" blue="0.060173031660000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.92094385609999996" green="1" blue="0.49054471420000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="beginGame:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Xp0-Ed-JSz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vPz-LH-iXC">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vPz-LH-iXC">
                                 <rect key="frame" x="238" y="430" width="60" height="30"/>
                                 <color key="backgroundColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                 <state key="normal" title="自选背景">
-                                    <color key="titleColor" red="0.1988177354" green="0.82666508839999997" blue="0.30550147170000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.92094385609999996" green="1" blue="0.49054471420000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="0.23823502660000001" green="1" blue="0.1807071234" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -85,11 +87,13 @@
                                     <action selector="makeTips:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="iV1-Ds-cC2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yA6-VC-ejL">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yA6-VC-ejL">
                                 <rect key="frame" x="238" y="378" width="60" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                 <state key="normal" title="难度调整">
-                                    <color key="titleColor" red="0.1960784314" green="0.70588235290000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.92094385609999996" green="1" blue="0.49054471420000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="selectLevel:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LRa-46-V93"/>

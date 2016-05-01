@@ -19,20 +19,19 @@ static NSArray * puzzleGroup;
     [UIImagePNGRepresentation(backImage)writeToFile: imagePath atomically:YES];
 
 }
-+(PuzzleItemCtrlDirect)CtrlPuzzleMove:(PuzzleBlockItem *) thePuzzleBlock
++(void)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock withDragDirection:(PuzzleItemCtrlDirect*)Direct;
 {
     //取模型
     PuzzleItemCtrlModel * thePuzzleModel = thePuzzleBlock.puzzleModel;
     if (puzzleGroup.count==0) {
-        
-        return PuzzleItemCtrlDirectNone;
+        return ;
     }
     PuzzleBlockItem * bankItem;
     PuzzleItemCtrlModel * bankCtrlModel;
     for (id obj in puzzleGroup) {
         
         if (![obj isKindOfClass:[PuzzleBlockItem class]]) {
-            return PuzzleItemCtrlDirectNone;
+            return ;
         }
         PuzzleBlockItem * puzzleBlock = (PuzzleBlockItem*)obj;
         if (puzzleBlock.puzzleModel.objIdx == puzzleGroup.count -1 ) {
@@ -60,11 +59,9 @@ static NSArray * puzzleGroup;
         thePuzzleModel.curIdx = tmpIdx;
         thePuzzleBlock.puzzleModel = thePuzzleModel;
         bankItem.puzzleModel = bankCtrlModel;
-        
         [[NSNotificationCenter defaultCenter]postNotificationName:@"hasMove" object:nil];
     }
     [PuzzleTools check_pass];
-    return PuzzleItemCtrlDirectUp;
 }
 +(void)setPuzzleGroup:(NSMutableArray *)groupArr
 {
@@ -89,7 +86,7 @@ static NSArray * puzzleGroup;
 +(void)check_pass
 {
     
-    int t;
+    int t=0;
     
     PuzzleBlockItem * puzzle;
     for (int i=0; i<puzzleGroup.count; i++) {
@@ -101,9 +98,7 @@ static NSArray * puzzleGroup;
         }
         puzzle = block;
     }
-    
     if (t == puzzleGroup.count) {
-        
         [puzzle showRealImage];
         UIAlertView *GamePassAlert = [[UIAlertView alloc]initWithTitle:@"通关提示" message:@"恭喜你成功通关" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [GamePassAlert show];

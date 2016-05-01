@@ -55,7 +55,7 @@
         self.backgroundColor = [UIColor whiteColor];
         self.frame = puzzleModel.itemRect;
         self.titleLabel = [[UILabel alloc]initWithFrame:self.bounds];
-        //self.titleLabel.backgroundColor = [UIColor orangeColor];
+        self.titleLabel.textColor = [UIColor redColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.alpha = 0;
         [self addSubview:self.titleLabel];
@@ -69,35 +69,6 @@
 
         [self addGestureRecognizer:self.tap];
         [self addGestureRecognizer:self.pan];
-        
-        CATransition *anim = [CATransition animation];
-        //设置动画类型
-        //    pageCurl            向上翻一页
-        //    pageUnCurl          向下翻一页
-        //    rippleEffect        滴水效果
-        //    suckEffect          收缩效果，如一块布被抽走
-        //    cube                立方体效果
-        //    oglFlip             上下翻转效果
-        anim.type = @"pageCurl";//指明动画的类型
-        //subType
-        /**
-         *
-         kCATransitionFade   交叉淡化过渡
-         kCATransitionMoveIn 新视图移到旧视图上面
-         kCATransitionPush   新视图把旧视图推出去
-         kCATransitionReveal 将旧视图移开,显示下面的新视图
-         
-         kCATransitionFromLeft;
-         kCATransitionFromTop;
-         kCATransitionFromBottom;
-         kCATransitionFromRight;
-         */
-        
-        anim.subtype = kCATransitionFade;//指明动画的过渡类型或方向
-        
-        anim.duration = 0.5;
-        
-        [self.layer addAnimation:anim forKey:nil];
         
         self.titleLabel.text = [NSString stringWithFormat:@"%d",puzzleModel.objIdx];
         
@@ -122,10 +93,42 @@
 
 -(void)tapTarget:(UITapGestureRecognizer *) tapGesture
 {
-    [PuzzleTools CtrlPuzzleMove:self];
+    [PuzzleTools CtrlPuzzleMove:self withDragDirection:NULL];
 }
 -(void)panTarget:(UIPanGestureRecognizer *) panGesture
 {
+    PuzzleItemCtrlDirect  moveDirect = PuzzleItemCtrlDirectNone;
+    [PuzzleTools CtrlPuzzleMove:self withDragDirection:&moveDirect];
+    CGRect  originRect = self.frame;
+    int xOffSet=0;
+    int yOffSet=0;
+    switch (moveDirect) {
+        case PuzzleItemCtrlDirectUp:
+            yOffSet = - originRect.size.height;
+            break;
+        case PuzzleItemCtrlDirectDown:
+            yOffSet = originRect.size.height;
+            break;
+        case PuzzleItemCtrlDirectLeft:
+            xOffSet = -originRect.size.width;
+            break;
+        case PuzzleItemCtrlDirectRight:
+            xOffSet = originRect.size.width;
+            break;
+    }
+    
+    if (panGesture.state == UIGestureRecognizerStateBegan) {
+        
+        
+    }
+    else if(panGesture.state == UIGestureRecognizerStatePossible)
+    {
+        
+    }
+    else if(panGesture.state==UIGestureRecognizerStateEnded)
+    {
+        
+    }
     
 }
 -(BOOL)isAtObjIdx{
@@ -145,6 +148,52 @@
 -(void)showRealImage
 {
     self.image = self.showImage;
+}
+- (void)didMoveToSuperview
+{
+    // 1.创建动画对象
+//    CABasicAnimation *anim = [CABasicAnimation animation];
+//    // 2.设置动画对象
+//    // keyPath决定了执行怎样的动画, 调整哪个属性来执行动画
+//    anim.keyPath = @"transform";
+//    //    anim.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+//    anim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 1, -1, 0)];
+//    anim.duration = 2.0;
+//    
+//    anim.removedOnCompletion = NO;
+//    anim.fillMode = kCAFillModeForwards;
+//    
+//    // 3.添加动画
+//    [self.layer addAnimation:anim forKey:nil];
+
+    
+    CATransition *anim2 = [CATransition animation];
+    //设置动画类型
+    //    pageCurl            向上翻一页
+    //    pageUnCurl          向下翻一页
+    //    rippleEffect        滴水效果
+    //    suckEffect          收缩效果，如一块布被抽走
+    //    cube                立方体效果
+    //    oglFlip             上下翻转效果
+    anim2.type = @"oglFlip";//指明动画的类型
+    //subType
+    /**
+     *
+     kCATransitionFade   交叉淡化过渡
+     kCATransitionMoveIn 新视图移到旧视图上面
+     kCATransitionPush   新视图把旧视图推出去
+     kCATransitionReveal 将旧视图移开,显示下面的新视图
+     
+     kCATransitionFromLeft;
+     kCATransitionFromTop;
+     kCATransitionFromBottom;
+     kCATransitionFromRight;
+     */
+    
+    anim2.subtype = kCATransitionFromLeft;//指明动画的过渡类型或方向
+    
+    anim2.duration = 0.5;
+    [self.superview.layer addAnimation:anim2 forKey:nil];
 }
 
 @end
