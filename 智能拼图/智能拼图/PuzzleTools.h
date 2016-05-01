@@ -13,10 +13,10 @@
 @interface PuzzleTools : NSObject
 +(void)saveBackImage:(UIImage *) backImage;
 +(UIImage*)getBackImage;
-+(void)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock withDragDirection:(PuzzleItemCtrlDirect*)Direct;
++(void)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock withDragDirection:(int*)Direct;
 /**
  *  拼图的所有的数组
  */
 +(void)setPuzzleGroup:(NSMutableArray *) groupArr;
-
++(void)exchangePuzzleWithBank:(PuzzleBlockItem *)thePuzzleBlock;
 @end

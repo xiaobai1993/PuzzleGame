@@ -15,7 +15,6 @@ static int itemSum=16;
 @interface MainViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     CGFloat gradeTime;
-    int lastItemCount;
 }
 
 @property (strong, nonatomic) IBOutlet UIButton *bgImage;
@@ -60,7 +59,7 @@ static int step =0;
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hasGetSuccessNotify) name:@"success" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateStep) name:@"hasMove" object:nil];
-     [self.bgImage setBackgroundColor:[UIColor grayColor]];
+     [self.bgImage setBackgroundColor:[UIColor whiteColor]];
      self.originalPic.image = [PuzzleTools getBackImage];
      [self.bgImage setBackgroundImage:self.originalPic.image forState:UIControlStateNormal];
      self.view.backgroundColor = [UIColor lightGrayColor];
@@ -124,12 +123,10 @@ static int step =0;
     gradeTime=0;
     
     //每次都要把所有的原来创建的按钮移除，否则再次点击开始的时候会有影响
-    for (int i=1; i<=itemSum; i++) {
-        PuzzleBlockItem * blockItem =(PuzzleBlockItem*)[self.bgImage viewWithTag:i];
-        if (blockItem!=nil) {
-            [blockItem removeFromSuperview];
-            blockItem = nil;
-        }
+    
+    for (PuzzleBlockItem * blockItem in self.PuzzleItemArr) {
+        
+        [blockItem removeFromSuperview];
     }
     [self.PuzzleItemArr removeAllObjects];
     [self.bgImage setBackgroundImage:self.originalPic.image forState:UIControlStateNormal];
@@ -273,19 +270,16 @@ static int step =0;
     
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"难度等级" message:@"请选择难度等级" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction * actionLow = [UIAlertAction actionWithTitle:@"低" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        lastItemCount=itemSum;
         itemSum = 9;
         [self beginGame:sender];
     }];
     [alert addAction:actionLow];
     UIAlertAction * actionMid= [UIAlertAction actionWithTitle:@"中" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-         lastItemCount=itemSum;
          itemSum = 16;
          [self beginGame:sender];
     }];
     [alert addAction:actionMid];
     UIAlertAction * actionHigh = [UIAlertAction actionWithTitle:@"高" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        lastItemCount=itemSum;
         itemSum = 25;
          [self beginGame:sender];
     }];

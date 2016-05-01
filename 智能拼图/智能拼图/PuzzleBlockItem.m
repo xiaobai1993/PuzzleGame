@@ -22,6 +22,9 @@
 
 @property (nonatomic,strong) UIImage * showImage;
 
+@property (nonatomic,assign) CGPoint originCenter;
+
+@property (nonatomic,assign) CGPoint preMoveCenter;
 @end
 @implementation PuzzleBlockItem
 /**
@@ -88,6 +91,8 @@
 {
     _puzzleModel = puzzleModel;
     self.frame = _puzzleModel.itemRect;
+    self.originCenter = self.center;
+    self.preMoveCenter = self.center;
 }
 //点击按钮的事件
 
@@ -97,36 +102,94 @@
 }
 -(void)panTarget:(UIPanGestureRecognizer *) panGesture
 {
-    PuzzleItemCtrlDirect  moveDirect = PuzzleItemCtrlDirectNone;
+    int  moveDirect = PuzzleItemCtrlDirectNone;
     [PuzzleTools CtrlPuzzleMove:self withDragDirection:&moveDirect];
-    CGRect  originRect = self.frame;
-    int xOffSet=0;
-    int yOffSet=0;
+    CGFloat xOffSet=0;
+    CGFloat yOffSet=0;
+    CGFloat itemW = self.frame.size.width;
+    CGFloat itemH = self.frame.size.height;
     switch (moveDirect) {
         case PuzzleItemCtrlDirectUp:
-            yOffSet = - originRect.size.height;
+            yOffSet = - itemH;
             break;
         case PuzzleItemCtrlDirectDown:
-            yOffSet = originRect.size.height;
+            yOffSet =itemH;
             break;
         case PuzzleItemCtrlDirectLeft:
-            xOffSet = -originRect.size.width;
+            xOffSet = -itemW;
             break;
         case PuzzleItemCtrlDirectRight:
-            xOffSet = originRect.size.width;
+            xOffSet = itemW;
             break;
     }
-    
+    CGFloat xMoveOff=0;
+    CGFloat yMoveOff=0;
+    CGPoint center =[panGesture locationInView:self];
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         
-        
+        self.originCenter = center;
     }
-    else if(panGesture.state == UIGestureRecognizerStatePossible)
+    else if(panGesture.state == UIGestureRecognizerStateChanged)
     {
-        
+        [self.superview bringSubviewToFront:self];
+        if (yOffSet>0) {//向下移动
+            yMoveOff=center.y - self.originCenter.y;
+            if (yMoveOff>=0) {
+
+                self.center = CGPointMake(self.center.x, self.center.y+yMoveOff);
+                if (self.center.y-self.preMoveCenter.y>itemH) {
+                    self.center = CGPointMake(self.center.x, self.preMoveCenter.y+itemH);
+                }
+            }
+        }
+        else if(yOffSet<0)//向上移动
+        {
+            yMoveOff=center.y - self.originCenter.y;
+            if (yMoveOff<=0) {
+                self.center = CGPointMake(self.center.x, self.center.y+yMoveOff);
+                if (self.center.y-self.preMoveCenter.y<-itemH) {
+                    self.center = CGPointMake(self.center.x, self.preMoveCenter.y-itemH);
+                }
+
+            }
+        }
+        else if (xOffSet>0) {//向右移动
+            xMoveOff=center.x - self.originCenter.x;
+            if (xMoveOff>=0) {
+                self.center = CGPointMake(self.center.x+xMoveOff, self.center.y);
+                if (self.center.x-self.preMoveCenter.x>itemW) {
+                    self.center = CGPointMake(self.preMoveCenter.x+itemW, self.center.y);
+                }
+            }
+        }
+        else if(xOffSet<0)//向左移动
+        {
+            xMoveOff=center.x - self.originCenter.x;
+            if (yMoveOff<=0) {
+                self.center = CGPointMake(self.center.x+xMoveOff, self.center.y);
+                if (self.center.x-self.preMoveCenter.x<-itemW) {
+                    self.center = CGPointMake(self.preMoveCenter.x- itemW, self.center.y);
+                }
+            }
+        }
+       
     }
     else if(panGesture.state==UIGestureRecognizerStateEnded)
     {
+        BOOL f1 = fabs(fabs(self.center.x-self.preMoveCenter.x)-itemW)<3;
+        BOOL f2 = fabs(fabs(self.center.y-self.preMoveCenter.y)-itemH)<3;
+        if (f1||f2) {
+            
+            [PuzzleTools exchangePuzzleWithBank:self];
+            //交换和空格的位置，完成调整
+        }
+        else
+        {
+            [UIView animateWithDuration:0.5 animations:^{
+                
+                self.center = self.preMoveCenter;
+            }];
+        }
         
     }
     
@@ -137,7 +200,6 @@
 }
 - (UIImage *)getPartOfImageInRect:(CGRect)partRect
 {
-    
     UIImage * img = [PuzzleTools getBackImage];
     CGImageRef imageRef = img.CGImage;
     CGImageRef imagePartRef = CGImageCreateWithImageInRect(imageRef, partRect);
@@ -152,46 +214,9 @@
 - (void)didMoveToSuperview
 {
     // 1.创建动画对象
-//    CABasicAnimation *anim = [CABasicAnimation animation];
-//    // 2.设置动画对象
-//    // keyPath决定了执行怎样的动画, 调整哪个属性来执行动画
-//    anim.keyPath = @"transform";
-//    //    anim.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
-//    anim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 1, -1, 0)];
-//    anim.duration = 2.0;
-//    
-//    anim.removedOnCompletion = NO;
-//    anim.fillMode = kCAFillModeForwards;
-//    
-//    // 3.添加动画
-//    [self.layer addAnimation:anim forKey:nil];
-
-    
     CATransition *anim2 = [CATransition animation];
-    //设置动画类型
-    //    pageCurl            向上翻一页
-    //    pageUnCurl          向下翻一页
-    //    rippleEffect        滴水效果
-    //    suckEffect          收缩效果，如一块布被抽走
-    //    cube                立方体效果
-    //    oglFlip             上下翻转效果
     anim2.type = @"oglFlip";//指明动画的类型
-    //subType
-    /**
-     *
-     kCATransitionFade   交叉淡化过渡
-     kCATransitionMoveIn 新视图移到旧视图上面
-     kCATransitionPush   新视图把旧视图推出去
-     kCATransitionReveal 将旧视图移开,显示下面的新视图
-     
-     kCATransitionFromLeft;
-     kCATransitionFromTop;
-     kCATransitionFromBottom;
-     kCATransitionFromRight;
-     */
-    
     anim2.subtype = kCATransitionFromLeft;//指明动画的过渡类型或方向
-    
     anim2.duration = 0.5;
     [self.superview.layer addAnimation:anim2 forKey:nil];
 }

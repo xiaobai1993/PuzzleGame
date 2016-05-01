@@ -19,7 +19,7 @@ static NSArray * puzzleGroup;
     [UIImagePNGRepresentation(backImage)writeToFile: imagePath atomically:YES];
 
 }
-+(void)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock withDragDirection:(PuzzleItemCtrlDirect*)Direct;
++(void)CtrlPuzzleMove:(PuzzleBlockItem*)thePuzzleBlock withDragDirection:(int*)Direct;
 {
     //取模型
     PuzzleItemCtrlModel * thePuzzleModel = thePuzzleBlock.puzzleModel;
@@ -53,13 +53,35 @@ static NSArray * puzzleGroup;
     //如果满足条件就直接交换和空格位置
     if (f1||((!(f2||f3))&&f4))
     {
-        //交换空格和拼图的的当前位置
-        int tmpIdx = bankCtrlModel.curIdx;
-        bankCtrlModel.curIdx = thePuzzleModel.curIdx;
-        thePuzzleModel.curIdx = tmpIdx;
-        thePuzzleBlock.puzzleModel = thePuzzleModel;
-        bankItem.puzzleModel = bankCtrlModel;
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"hasMove" object:nil];
+        if (Direct==NULL) {
+            //交换空格和拼图的的当前位置
+            int tmpIdx = bankCtrlModel.curIdx;
+            bankCtrlModel.curIdx = thePuzzleModel.curIdx;
+            thePuzzleModel.curIdx = tmpIdx;
+            thePuzzleBlock.puzzleModel = thePuzzleModel;
+            bankItem.puzzleModel = bankCtrlModel;
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"hasMove" object:nil];
+        }
+        else
+        {
+            int xOff=0,yOff=0;
+            xOff = bankCtrlModel.itemRect.origin.x - thePuzzleModel.itemRect.origin.x;
+            yOff = bankCtrlModel.itemRect.origin.y - thePuzzleModel.itemRect.origin.y;
+            if (xOff>0) {
+                *Direct  = PuzzleItemCtrlDirectRight;
+            }
+            else if(xOff<0)
+            {
+                *Direct = PuzzleItemCtrlDirectLeft;
+            }
+            else if (yOff>0) {
+                *Direct = PuzzleItemCtrlDirectDown;
+            }
+            else
+            {
+                *Direct = PuzzleItemCtrlDirectUp;
+            }
+        }
     }
     [PuzzleTools check_pass];
 }
@@ -82,7 +104,29 @@ static NSArray * puzzleGroup;
     }
     return image;
 }
++(void)exchangePuzzleWithBank:(PuzzleBlockItem *)thePuzzleBlock
+{
+    
+    PuzzleBlockItem * bankItem;
+    PuzzleItemCtrlModel * bankCtrlModel;
+    for (id obj in puzzleGroup) {
+        PuzzleBlockItem * puzzleBlock = (PuzzleBlockItem*)obj;
+        if (puzzleBlock.puzzleModel.objIdx == puzzleGroup.count -1 ) {
+            bankCtrlModel = puzzleBlock.puzzleModel;
+            bankItem = puzzleBlock;
+        }
+    }
+    
+    PuzzleItemCtrlModel * thePuzzleModel = thePuzzleBlock.puzzleModel;
+    int tmpIdx = bankCtrlModel.curIdx;
+    bankCtrlModel.curIdx = thePuzzleModel.curIdx;
+    thePuzzleModel.curIdx = tmpIdx;
+    thePuzzleBlock.puzzleModel = thePuzzleModel;
+    bankItem.puzzleModel = bankCtrlModel;
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"hasMove" object:nil];
+    [PuzzleTools check_pass];
 
+}
 +(void)check_pass
 {
     
@@ -93,7 +137,6 @@ static NSArray * puzzleGroup;
         
         PuzzleBlockItem * block = puzzleGroup[i];
         if (block.puzzleModel.curIdx==block.puzzleModel.objIdx) {
-            
             t++;
         }
         puzzle = block;
