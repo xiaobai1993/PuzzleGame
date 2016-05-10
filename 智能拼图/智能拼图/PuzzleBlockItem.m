@@ -10,7 +10,7 @@
 #import "PuzzleTools.h"
 @interface PuzzleBlockItem ()
 
-//测试下分支程序,再次测试下分支的合并
+//测试下分支程序,再次测试下分支的合并，希望能够如我所愿
 /**
  * 提示的序号标签
  */
