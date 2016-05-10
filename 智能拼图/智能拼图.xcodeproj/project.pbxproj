@@ -82,8 +82,8 @@
 		CFA185B71CD07BB80091A750 /* bg2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg2.png; path = ../bg2.png; sourceTree = "<group>"; };
 		CFA290CF1CBFB06C00F1A1BE /* gradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gradeViewController.h; sourceTree = "<group>"; };
 		CFA290D01CBFB06C00F1A1BE /* gradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gradeViewController.m; sourceTree = "<group>"; };
-		CFA7042A1CD31E6F00B08403 /* PuzzleTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PuzzleTools.h; path = ../PuzzleTools.h; sourceTree = "<group>"; };
-		CFA7042B1CD31E6F00B08403 /* PuzzleTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PuzzleTools.m; path = ../PuzzleTools.m; sourceTree = "<group>"; };
+		CFA7042A1CD31E6F00B08403 /* PuzzleTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PuzzleTools.h; path = "智能拼图/PuzzleTools.h"; sourceTree = "<group>"; };
+		CFA7042B1CD31E6F00B08403 /* PuzzleTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PuzzleTools.m; path = "智能拼图/PuzzleTools.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,8 +195,6 @@
 		CF845F531CD231C200C8E070 /* MJExtension */ = {
 			isa = PBXGroup;
 			children = (
-				CFA7042A1CD31E6F00B08403 /* PuzzleTools.h */,
-				CFA7042B1CD31E6F00B08403 /* PuzzleTools.m */,
 				CFA185B71CD07BB80091A750 /* bg2.png */,
 				CF1EC7D31CC8B1B700D7977F /* AppDelegate.h */,
 				CF1EC7D41CC8B1B700D7977F /* AppDelegate.m */,
@@ -229,6 +227,8 @@
 		CF88D9721CD6627F0084886B /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				CFA7042A1CD31E6F00B08403 /* PuzzleTools.h */,
+				CFA7042B1CD31E6F00B08403 /* PuzzleTools.m */,
 				CF845F531CD231C200C8E070 /* MJExtension */,
 			);
 			name = Other;
