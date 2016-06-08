@@ -41,20 +41,26 @@ static NSArray * puzzleGroup;
     }
 
     int rowNum = (int)sqrt(puzzleGroup.count);
-    //条件1 上下可以交换
-    BOOL f1 = (thePuzzleModel.curIdx+rowNum==bankCtrlModel.curIdx)||(thePuzzleModel.curIdx-rowNum==bankCtrlModel.curIdx);
-    //条件2
-    BOOL f2 = ((thePuzzleModel.curIdx+1)%rowNum==1)&&(thePuzzleModel.curIdx-1==bankCtrlModel.curIdx);
+    
 
-    BOOL f3=  ((thePuzzleModel.curIdx+1)%rowNum==0)&&(thePuzzleModel.curIdx+1==bankCtrlModel.curIdx);
-    //左右相邻的可以交换
-    BOOL f4 = (thePuzzleModel.curIdx+1==bankCtrlModel.curIdx)||(thePuzzleModel.curIdx-1==bankCtrlModel.curIdx);
+//    //条件1 上下可以交换
+//    BOOL f1 = (thePuzzleModel.curIdx+rowNum==bankCtrlModel.curIdx)||(thePuzzleModel.curIdx-rowNum==bankCtrlModel.curIdx);
+//    //条件2
+//    BOOL f2 = ((thePuzzleModel.curIdx+1)%rowNum==1)&&(thePuzzleModel.curIdx-1==bankCtrlModel.curIdx);
+//    BOOL f3=  ((thePuzzleModel.curIdx+1)%rowNum==0)&&(thePuzzleModel.curIdx+1==bankCtrlModel.curIdx);
+//    //左右相邻的可以交换
+//    BOOL f4 = (thePuzzleModel.curIdx+1==bankCtrlModel.curIdx)||(thePuzzleModel.curIdx-1==bankCtrlModel.curIdx);
+    
+    
+    //f1||((!(f2||f3))&&f4
+    int curX = thePuzzleModel.curIdx/rowNum;
+    int curY = thePuzzleModel.curIdx%rowNum;
+    int blankX = bankCtrlModel.curIdx/rowNum;
+    int blankY = bankCtrlModel.curIdx%rowNum;
+    
 
-    NSLog(@"%d %d %d %d",f1,f2,f3,f4);
-
-    NSLog(@"%d",thePuzzleModel.curIdx);
         //如果满足条件就直接交换和空格位置
-    if (f1||((!(f2||f3))&&f4))
+    if ((curX==blankX&&abs(curY-blankY)==1)||((int)abs(curX-blankX)==1&&curY==blankY))
     {
         if (Direct==NULL) {
             //交换空格和拼图的的当前位置
